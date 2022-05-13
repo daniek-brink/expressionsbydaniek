@@ -671,7 +671,7 @@ input, select, textarea {
 		}
 
 		.image.left, .image.right {
-			max-width: 40%;
+			max-width: 50%;
 		}
 
 			.image.left img, .image.right img {
@@ -680,14 +680,15 @@ input, select, textarea {
 
 		.image.left {
 			float: left;
-			padding: 0 1.5em 1em 0;
+			padding: 0 0 0 0;
 			top: 0.25em;
 		}
 
 		.image.right {
 			float: right;
-			padding: 0 0 1em 1.5em;
+			padding: 0 0 0 0;
 			top: 0.25em;
+			margin-left: 1em;
 		}
 
 		.image.fit {
@@ -788,6 +789,10 @@ input, select, textarea {
 		list-style: none;
 		margin-left: -1rem;
 		padding-left: 0;
+	}
+
+	ul.actions.images {
+	    margin-left: 0;
 	}
 
 		ul.actions li {
@@ -1366,6 +1371,7 @@ input, select, textarea {
 			padding-left: 0;
 			border: solid 1px #ffffff;
 			border-radius: 4px;
+			box-sizing: content-box;
 		}
 
 			#header nav ul li {
