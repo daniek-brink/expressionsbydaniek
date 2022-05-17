@@ -11,6 +11,7 @@
 		$wrapper = $('#wrapper'),
 		$header = $('#header'),
 		$footer = $('#footer'),
+		$portfolio_button = $('#portfolio_button'),
 		$main = $('#main'),
 		$main_articles = $main.children('article');
 
@@ -298,6 +299,19 @@
 							location.hash = '';
 						});
 
+                const full_div = '<ul class="actions images"><li class="button small">previous</div><li class="button small">next</div></ul>';
+
+
+				// Previous
+					$('<div class="button small">previous</div>')
+						.appendTo($this)
+						.on('click', previousArtwork);
+
+				// Next
+					$('<div class="button small">next</div>')
+						.appendTo($this)
+						.on('click', nextArtwork);
+
 				// Prevent clicks from inside article from bubbling.
 					$this.on('click', function(event) {
 						event.stopPropagation();
@@ -397,5 +411,42 @@
 					$window.on('load', function() {
 						$main._show(location.hash.substr(1), true);
 					});
+            // Initial artwork
+            var $currentArtwork = $main_articles.first()
+            var artworkIndex = 0
+            const artworklist = $main_articles
+
+        // Portfolio
+			function nextArtwork() {
+			    console.log("getting the next artwork!")
+
+			    // Hide current one
+                artworklist[artworkIndex].classList.remove('active');
+
+                // Find new index
+                artworkIndex = (artworkIndex + 1) % artworklist.length;
+
+                // Show new one.
+                artworklist[artworkIndex].classList.add('active');
+			    $main._show($main_articles.filter('.active').attr('id'));
+
+			    };
+
+			function previousArtwork() {
+			    console.log("getting the previous artwork!")
+
+			    // Hide current one
+                artworklist[artworkIndex].classList.remove('active');
+
+                // Find new index
+                artworkIndex = (artworkIndex - 1) % artworklist.length;
+
+                // Show new one.
+                artworklist[artworkIndex].classList.add('active');
+			    $main._show($main_articles.filter('.active').attr('id'));
+
+			    };
+
+			$portfolio_button.on('click', nextArtwork);
 
 })(jQuery);
