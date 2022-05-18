@@ -92,6 +92,7 @@
 
 							// Deactivate all articles (just in case one's already active).
 								$main_articles.removeClass('active');
+								$main_articles.css('display', 'none');
 
 							// Hide header, footer.
 								$header.hide();
@@ -126,6 +127,7 @@
 							var $currentArticle = $main_articles.filter('.active');
 
 							$currentArticle.removeClass('active');
+							$currentArticle.css('display', 'none');
 
 						// Show article.
 							setTimeout(function() {
@@ -253,6 +255,7 @@
 
 				// Deactivate article.
 					$article.removeClass('active');
+					$article.css('display', 'none');
 
 				// Hide article.
 					setTimeout(function() {
