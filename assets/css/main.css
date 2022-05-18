@@ -1686,3 +1686,12 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
+
+	.portfolio {
+          margin: auto;
+          width: 50%;
+          padding: 10px;
+          list-style: none;
+          padding-left: 0;
+          display: -webkit-flex;
+    }

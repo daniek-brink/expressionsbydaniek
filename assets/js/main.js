@@ -298,19 +298,14 @@
 						.on('click', function() {
 							location.hash = '';
 						});
+                // Add next/previous buttons.
+                    var previousid = 'previous_' + this.id;
+                    var nextid = 'next_' + this.id;
+                    var portfolio_div = '<ul class="portfolio"><li><a class="button small" id="' + previousid + '">previous</a></li><li><a class="button small" id="' + nextid + '">next</a></li></ul>';
 
-                const full_div = '<ul class="actions images"><li class="button small">previous</div><li class="button small">next</div></ul>';
 
+                    $(portfolio_div).appendTo($this);
 
-				// Previous
-					$('<div class="button small">previous</div>')
-						.appendTo($this)
-						.on('click', previousArtwork);
-
-				// Next
-					$('<div class="button small">next</div>')
-						.appendTo($this)
-						.on('click', nextArtwork);
 
 				// Prevent clicks from inside article from bubbling.
 					$this.on('click', function(event) {
@@ -411,42 +406,60 @@
 					$window.on('load', function() {
 						$main._show(location.hash.substr(1), true);
 					});
+
             // Initial artwork
-            var $currentArtwork = $main_articles.first()
-            var artworkIndex = 0
-            const artworklist = $main_articles
+            var art_index;
+            const art_ids = [];
+            var buttons_created = []
+            $main_articles.each(function(){
+                art_ids.push(this.id);
+                buttons_created.push(false);
+            });
+            var currentArtId;
+
 
         // Portfolio
-			function nextArtwork() {
-			    console.log("getting the next artwork!")
+            function showArtwork() {
+			    prepareButtons();
+			    $main._show(currentArtId, true);
+            };
 
-			    // Hide current one
-                artworklist[artworkIndex].classList.remove('active');
+			var nextArtwork = function () {
+			    art_index++;
 
-                // Find new index
-                artworkIndex = (artworkIndex + 1) % artworklist.length;
+			    if (art_index > $main_articles.length - 1) {
+			        art_index = $main_articles.length - art_index;
+			    }
 
-                // Show new one.
-                artworklist[artworkIndex].classList.add('active');
-			    $main._show($main_articles.filter('.active').attr('id'));
-
+                showArtwork();
 			    };
 
-			function previousArtwork() {
-			    console.log("getting the previous artwork!")
-
-			    // Hide current one
-                artworklist[artworkIndex].classList.remove('active');
-
-                // Find new index
-                artworkIndex = (artworkIndex - 1) % artworklist.length;
-
-                // Show new one.
-                artworklist[artworkIndex].classList.add('active');
-			    $main._show($main_articles.filter('.active').attr('id'));
-
+			var previousArtwork = function () {
+			    art_index--;
+			    if (art_index < 0) {
+			        art_index = $main_articles.length + art_index;
+			    }
+			    showArtwork();
 			    };
 
-			$portfolio_button.on('click', nextArtwork);
+			function firstArtwork() {
+			    art_index = 0;
+			    prepareButtons();
+			    $main._show(currentArtId);
+			}
+
+			function prepareButtons() {
+			        currentArtId = art_ids[art_index]
+			        if (!buttons_created[art_index]) {
+                        var previousid = 'previous_' + currentArtId;
+                        var nextid = 'next_' + currentArtId;
+                        $('#' + nextid).on('click', nextArtwork);
+                        $('#' + previousid).on('click', previousArtwork);
+                        buttons_created[art_index] = true;
+                    }
+			};
+
+			$portfolio_button.on('click', firstArtwork);
+
 
 })(jQuery);
