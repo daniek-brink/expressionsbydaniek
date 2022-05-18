@@ -161,21 +161,27 @@
 
 				// Otherwise, handle as normal.
 					else {
-
+                        console.log('handle normally')
 						// Mark as visible.
 							$body
 								.addClass('is-article-visible');
+
+                            var $htmlbody = $('html,body');
+							var scrollp = $htmlbody.scrollTop()
+
+							console.log(scrollp)
 
 						// Show article.
 							setTimeout(function() {
 
 								// Hide header, footer.
-									$header.hide();
-									$footer.hide();
+//									$header.hide();
+//									$footer.hide();
 
 								// Show main, article.
 									$main.show();
 									$article.show();
+//									$article.addClass('active');
 
 								// Activate article.
 									setTimeout(function() {
@@ -184,7 +190,7 @@
 
 										// Window stuff.
 											$window
-												.scrollTop(0)
+												.scrollTop(scrollp)
 												.triggerHandler('resize.flexbox-fix');
 
 										// Unlock.
@@ -195,18 +201,19 @@
 									}, 25);
 
 							}, delay);
-
 					}
-
 			};
 
 			$main._hide = function(addState) {
-
+                console.log('hiding called...')
 				var $article = $main_articles.filter('.active');
 
 				// Article not visible? Bail.
-					if (!$body.hasClass('is-article-visible'))
-						return;
+					if (!$body.hasClass('is-article-visible')) {
+					    console.log('no visible')
+					    return;
+					}
+
 
 				// Add state?
 					if (typeof addState != 'undefined'
@@ -299,8 +306,11 @@
 					$('<div class="close">Close</div>')
 						.appendTo($this)
 						.on('click', function() {
-							location.hash = '';
+							$portfolio_button.css("display", "inline-block");
+							$this.hide();
+							$this.css("display", "none");
 						});
+
                 // Add next/previous buttons.
                     var previousid = 'previous_' + this.id;
                     var nextid = 'next_' + this.id;
@@ -323,6 +333,8 @@
 				// Article visible? Hide.
 					if ($body.hasClass('is-article-visible'))
 						$main._hide(true);
+
+					console.log('body click triggered')
 
 			});
 
@@ -376,9 +388,11 @@
 
 		// Scroll restoration.
 		// This prevents the page from scrolling back to the top on a hashchange.
-			if ('scrollRestoration' in history)
+			if ('scrollRestoration' in history) {
 				history.scrollRestoration = 'manual';
-			else {
+				console.log('scenario 3');
+
+			} else {
 
 				var	oldScrollPos = 0,
 					scrollPos = 0,
@@ -386,12 +400,13 @@
 
 				$window
 					.on('scroll', function() {
-
+                        console.log('scenario 2')
 						oldScrollPos = scrollPos;
 						scrollPos = $htmlbody.scrollTop();
 
 					})
 					.on('hashchange', function() {
+					    console.log('scenario 1')
 						$window.scrollTop(oldScrollPos);
 					});
 
@@ -448,6 +463,7 @@
 			function firstArtwork() {
 			    art_index = 0;
 			    prepareButtons();
+			    $portfolio_button.css("display", "none");
 			    $main._show(currentArtId);
 			}
 
@@ -463,6 +479,9 @@
 			};
 
 			$portfolio_button.on('click', firstArtwork);
+
+			// TODO: when viewing artwork, clicking next and clicking close, view artwork does not reappear.
+			// TODO: clicking on view artwork scrolls to top.
 
 
 })(jQuery);
