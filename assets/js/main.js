@@ -181,7 +181,6 @@
 								// Show main, article.
 									$main.show();
 									$article.show();
-//									$article.addClass('active');
 
 								// Activate article.
 									setTimeout(function() {
@@ -202,6 +201,17 @@
 
 							}, delay);
 					}
+			};
+
+			$main._show2 = function(id, initial) {
+
+				var $article = $main_articles.filter('#' + id);
+
+                $article.addClass('active');
+
+                $main.show();
+                $article.show();
+
 			};
 
 			$main._hide = function(addState) {
@@ -334,8 +344,6 @@
 					if ($body.hasClass('is-article-visible'))
 						$main._hide(true);
 
-					console.log('body click triggered')
-
 			});
 
 			$window.on('keyup', function(event) {
@@ -390,7 +398,6 @@
 		// This prevents the page from scrolling back to the top on a hashchange.
 			if ('scrollRestoration' in history) {
 				history.scrollRestoration = 'manual';
-				console.log('scenario 3');
 
 			} else {
 
@@ -400,13 +407,11 @@
 
 				$window
 					.on('scroll', function() {
-                        console.log('scenario 2')
 						oldScrollPos = scrollPos;
 						scrollPos = $htmlbody.scrollTop();
 
 					})
 					.on('hashchange', function() {
-					    console.log('scenario 1')
 						$window.scrollTop(oldScrollPos);
 					});
 
@@ -464,7 +469,7 @@
 			    art_index = 0;
 			    prepareButtons();
 			    $portfolio_button.css("display", "none");
-			    $main._show(currentArtId);
+			    $main._show2(currentArtId);
 			}
 
 			function prepareButtons() {
