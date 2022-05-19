@@ -1675,6 +1675,24 @@ input, select, textarea {
 
 		}
 
+/* Artwork */
+
+    @media screen and (max-width: 480px) {
+
+            #main.artwork article  {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #main.artwork ul.portfolio {
+                width: 100%;
+                margin: 0;
+                align-items: center;
+                justify-content: center;
+            }
+
+		}
+
 /* Contact */
 
     #contact {
