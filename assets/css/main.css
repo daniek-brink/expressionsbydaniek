@@ -178,6 +178,7 @@ input, select, textarea {
 
 	p {
 		margin: 0 0 2rem 0;
+		text-align: justify;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
@@ -672,6 +673,7 @@ input, select, textarea {
 
 		.image.left, .image.right {
 			max-width: 50%;
+			max-height: 40%;
 		}
 
 			.image.left img, .image.right img {
@@ -1212,7 +1214,7 @@ input, select, textarea {
 		-ms-justify-content: space-between;
 		justify-content: space-between;
 		position: relative;
-		min-height: 80vh;
+		min-height: 100vh;
         padding-bottom: 10vh;
         padding-top: 10vh;
 		width: 100%;
@@ -1349,7 +1351,7 @@ input, select, textarea {
 				-webkit-transition-delay: 0.25s;
 				-ms-transition-delay: 0.25s;
 				transition-delay: 0.25s;
-				padding: 3rem 2rem;
+				padding: 3rem 5rem;
 				max-height: 40rem;
 				overflow: hidden;
 			}
@@ -1363,6 +1365,9 @@ input, select, textarea {
 				letter-spacing: 0.2rem;
 				font-size: 0.8rem;
 				line-height: 2;
+				padding-left: 2rem;
+				padding-right: 2rem;
+				text-align: center;
 			}
 
 		#header nav ul {
@@ -1392,7 +1397,6 @@ input, select, textarea {
 					min-width: 7.5rem;
 					height: 2.75rem;
 					line-height: 2.75rem;
-					padding: 0 1.25rem 0 1.45rem;
 					text-transform: uppercase;
 					letter-spacing: 0.2rem;
 					font-size: 0.8rem;
@@ -1493,12 +1497,8 @@ input, select, textarea {
 
 		@media screen and (max-width: 480px) {
 
-			#header {
-				padding: 1.5rem 0;
-			}
-
 				#header .content .inner {
-					padding: 2.5rem 0;
+					padding: 2rem 0;
 				}
 
 				#header nav ul {
@@ -1530,7 +1530,22 @@ input, select, textarea {
 					display: none;
 				}
 
+
+
 		}
+
+/* Portfolio */
+
+    #portfolio {
+        padding-top: 5vh;
+        padding-bottom: 20vh;
+    }
+
+    @media screen and (max-width: 480px) {
+        #portfolio {
+		    padding-bottom:25vh;
+		}
+    }
 
 /* Main */
 
@@ -1659,6 +1674,29 @@ input, select, textarea {
 			}
 
 		}
+
+/* Contact */
+
+    #contact {
+        padding-bottom: 5vh;
+        padding-top: 3vh;
+    }
+
+    #contact .actions.images {
+        flex-direction:row;
+    }
+
+
+    @media screen and (max-width: 480px) {
+        #contact p {
+            margin-bottom: 0;
+            margin-top: 1vh;
+		}
+
+		#contact {
+		    padding-bottom: 0;
+		}
+    }
 
 /* Footer */
 
