@@ -1684,6 +1684,14 @@ input, select, textarea {
                 justify-content: center;
             }
 
+    @media screen and (max-width: 480px) {
+
+			#main article {
+				max-width: 130%;
+			}
+
+		}
+
 /* Contact */
 
     #contact {
