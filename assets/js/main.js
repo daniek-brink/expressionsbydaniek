@@ -11,6 +11,7 @@
 		$wrapper = $('#wrapper'),
 		$header = $('#header'),
 		$footer = $('#footer'),
+		$portfolio_button = $('#portfolio_button'),
 		$main = $('#main'),
 		$main_articles = $main.children('article');
 
@@ -81,129 +82,34 @@
 				// Handle lock.
 
 					// Already locked? Speed through "show" steps w/o delays.
-						if (locked || (typeof initial != 'undefined' && initial === true)) {
-
-							// Mark as switching.
-								$body.addClass('is-switching');
-
-							// Mark as visible.
-								$body.addClass('is-article-visible');
+						if (initial) {
 
 							// Deactivate all articles (just in case one's already active).
 								$main_articles.removeClass('active');
-
-							// Hide header, footer.
-								$header.hide();
-								$footer.hide();
-
-							// Show main, article.
-								$main.show();
-								$article.show();
-
-							// Activate article.
-								$article.addClass('active');
-
-							// Unlock.
-								locked = false;
-
-							// Unmark as switching.
-								setTimeout(function() {
-									$body.removeClass('is-switching');
-								}, (initial ? 1000 : 0));
-
-							return;
+								$main_articles.css('display', 'none');
 
 						}
 
-					// Lock.
-						locked = true;
+                        // Show main, article.
+                        $main.show();
+                        $article.show();
 
-				// Article already visible? Just swap articles.
-					if ($body.hasClass('is-article-visible')) {
+                        // Activate article.
+                        $article.addClass('active');
 
-						// Deactivate current article.
-							var $currentArticle = $main_articles.filter('.active');
-
-							$currentArticle.removeClass('active');
-
-						// Show article.
-							setTimeout(function() {
-
-								// Hide current article.
-									$currentArticle.hide();
-
-								// Show article.
-									$article.show();
-
-								// Activate article.
-									setTimeout(function() {
-
-										$article.addClass('active');
-
-										// Window stuff.
-											$window
-												.scrollTop(0)
-												.triggerHandler('resize.flexbox-fix');
-
-										// Unlock.
-											setTimeout(function() {
-												locked = false;
-											}, delay);
-
-									}, 25);
-
-							}, delay);
-
-					}
-
-				// Otherwise, handle as normal.
-					else {
-
-						// Mark as visible.
-							$body
-								.addClass('is-article-visible');
-
-						// Show article.
-							setTimeout(function() {
-
-								// Hide header, footer.
-									$header.hide();
-									$footer.hide();
-
-								// Show main, article.
-									$main.show();
-									$article.show();
-
-								// Activate article.
-									setTimeout(function() {
-
-										$article.addClass('active');
-
-										// Window stuff.
-											$window
-												.scrollTop(0)
-												.triggerHandler('resize.flexbox-fix');
-
-										// Unlock.
-											setTimeout(function() {
-												locked = false;
-											}, delay);
-
-									}, 25);
-
-							}, delay);
-
-					}
-
+//					}
 			};
 
 			$main._hide = function(addState) {
-
+                console.log('hiding called...')
 				var $article = $main_articles.filter('.active');
 
 				// Article not visible? Bail.
-					if (!$body.hasClass('is-article-visible'))
-						return;
+					if (!$body.hasClass('is-article-visible')) {
+					    console.log('no visible')
+					    return;
+					}
+
 
 				// Add state?
 					if (typeof addState != 'undefined'
@@ -252,6 +158,7 @@
 
 				// Deactivate article.
 					$article.removeClass('active');
+					$article.css('display', 'none');
 
 				// Hide article.
 					setTimeout(function() {
@@ -295,8 +202,19 @@
 					$('<div class="close">Close</div>')
 						.appendTo($this)
 						.on('click', function() {
-							location.hash = '';
+							$portfolio_button.css("display", "inline-block");
+							$this.hide();
+							$this.css("display", "none");
 						});
+
+                // Add next/previous buttons.
+                    var previousid = 'previous_' + this.id;
+                    var nextid = 'next_' + this.id;
+                    var portfolio_div = '<ul class="portfolio"><li><a class="button small" id="' + previousid + '">previous</a></li><li><a class="button small" id="' + nextid + '">next</a></li></ul>';
+
+
+                    $(portfolio_div).appendTo($this);
+
 
 				// Prevent clicks from inside article from bubbling.
 					$this.on('click', function(event) {
@@ -364,9 +282,10 @@
 
 		// Scroll restoration.
 		// This prevents the page from scrolling back to the top on a hashchange.
-			if ('scrollRestoration' in history)
+			if ('scrollRestoration' in history) {
 				history.scrollRestoration = 'manual';
-			else {
+
+			} else {
 
 				var	oldScrollPos = 0,
 					scrollPos = 0,
@@ -374,7 +293,6 @@
 
 				$window
 					.on('scroll', function() {
-
 						oldScrollPos = scrollPos;
 						scrollPos = $htmlbody.scrollTop();
 
@@ -397,5 +315,64 @@
 					$window.on('load', function() {
 						$main._show(location.hash.substr(1), true);
 					});
+
+            // Initial artwork
+            var art_index;
+            const art_ids = [];
+            var buttons_created = []
+            $main_articles.each(function(){
+                art_ids.push(this.id);
+                buttons_created.push(false);
+            });
+            var currentArtId;
+
+
+        // Portfolio
+            function showArtwork() {
+			    prepareButtons();
+			    $main._show(currentArtId, true);
+            };
+
+			var nextArtwork = function () {
+			    art_index++;
+
+			    if (art_index > $main_articles.length - 1) {
+			        art_index = $main_articles.length - art_index;
+			    }
+
+                showArtwork();
+			    };
+
+			var previousArtwork = function () {
+			    art_index--;
+			    if (art_index < 0) {
+			        art_index = $main_articles.length + art_index;
+			    }
+			    showArtwork();
+			    };
+
+			function firstArtwork() {
+			    art_index = 0;
+			    prepareButtons();
+			    $portfolio_button.css("display", "none");
+			    $main._show(currentArtId);
+			}
+
+			function prepareButtons() {
+			        currentArtId = art_ids[art_index]
+			        if (!buttons_created[art_index]) {
+                        var previousid = 'previous_' + currentArtId;
+                        var nextid = 'next_' + currentArtId;
+                        $('#' + nextid).on('click', nextArtwork);
+                        $('#' + previousid).on('click', previousArtwork);
+                        buttons_created[art_index] = true;
+                    }
+			};
+
+			$portfolio_button.on('click', firstArtwork);
+
+			// TODO: when viewing artwork, clicking next and clicking close, view artwork does not reappear.
+			// TODO: clicking on view artwork scrolls to top.
+
 
 })(jQuery);
