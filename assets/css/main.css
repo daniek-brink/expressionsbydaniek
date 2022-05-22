@@ -264,6 +264,7 @@ input, select, textarea {
 		font-style: italic;
 		margin: 0 0 2rem 0;
 		padding: 0.5rem 0 0.5rem 2rem;
+		text-align: justify;
 	}
 
 	code {
@@ -710,7 +711,6 @@ input, select, textarea {
 		}
 
 			.image.main img {
-				height: 50vh;
 				width: 100%;
 			}
 
@@ -1677,21 +1677,12 @@ input, select, textarea {
 
 /* Artwork */
 
-    @media screen and (max-width: 480px) {
-
-            #main.artwork article  {
-                width: 100%;
-                max-width: 100%;
-            }
-
-            #main.artwork ul.portfolio {
+    #main.artwork ul.portfolio {
                 width: 100%;
                 margin: 0;
                 align-items: center;
                 justify-content: center;
             }
-
-		}
 
 /* Contact */
 
@@ -1702,6 +1693,10 @@ input, select, textarea {
 
     #contact .actions.images {
         flex-direction:row;
+    }
+
+    #contact p {
+        padding-bottom: 2vh;
     }
 
 
